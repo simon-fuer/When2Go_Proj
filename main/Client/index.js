@@ -152,3 +152,24 @@ function createLi(text){
     }
     listContain.appendChild(newLi);
 }
+function toggleLogDialog(){
+    const login=document.getElementById('loginDialog')
+    const signup=document.getElementById('signupDialog')
+    if(!login.open && !signup.open){
+        login.showModal()
+    }
+    else if(login.open && !signup.open){
+        signup.showModal();
+        login.close();
+    }
+    else if(!login.open && signup.open){
+        signup.close();
+        login.showModal();
+    }
+}
+function closeDialog(){
+  const login=document.getElementById('loginDialog')
+  const signup=document.getElementById('signupDialog')   
+    login.close();
+    signup.close();
+}

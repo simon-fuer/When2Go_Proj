@@ -12,7 +12,7 @@
         <div class="nav-left">
         </div>
         <div class="nav-right">
-             <button class="login" onclick="window.location.href='login.html'">Sign up / Log in</button>
+             <button class="login" onclick="toggleLogDialog()">Sign up / Log in</button>
 
         </div>
     </nav>
@@ -209,5 +209,27 @@
     <footer>
          <p>Created by students of <a href="https://www.hcw.ac.at/">HCW</a></p>
     </footer>
+    <dialog id="loginDialog">
+      <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+        <button type="button" id="cancelLogin" onclick="closeDialog()">Cancel</button>
+        <p>If you are new here, sign up<a onclick="toggleLogDialog()">here</a></p>
+      </form>
+    </dialog>
+    <dialog id="signupDialog">
+      <form id="signupForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+        <button type="button" id="cancelLogin" onclick="closeDialog()">Cancel</button>
+        <p>If you already have an account, login <a onclick="toggleLogDialog()">here</a></p>
+      </form>
+    </dialog>
 </body>
 </html>
