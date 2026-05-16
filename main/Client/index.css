@@ -7,9 +7,6 @@ h1{
     font-weight: 600;
     margin: 2rem;
 }
-em{
-
-}
 .hidden{
     display: none !important;
 }
@@ -282,6 +279,9 @@ em{
     padding: 1rem 3rem;
     border-radius: 1.5rem;
     background-color: rgb(159, 159, 159);
+}
+.dateRange{
+    background-color: #ff1919;
 }
 .dayPlanner{
     grid-area: plan;

@@ -2,6 +2,8 @@ let userdata = {
     days: 0,
     timeframe:[],
     category:[],
+    chDates:['1.4', '2.4', '3.4'],
+    selectCalD:0
 }
 let userSelection = {
     recommendation: []
@@ -28,10 +30,17 @@ function monthChoice(month, element){
 function catchoice(category, element){
     if(!userdata.category.includes(category)){
         userdata.category.push(category)
-        element.classList.add('selected');
+        toggleSelected(element)
     }else {
         userdata.category = userdata.category.filter(c => c !== category)
-        element.classList.remove('selected');
+        toggleSelected(element)
+    }
+}
+function toggleSelected(element){
+    if (!element.classList.contains('selected')){
+        element.classList.add('selected')
+    }else{
+        element.classList.remove('selected')
     }
 }
 let startMonth 
@@ -85,16 +94,45 @@ function toggleView(currentPage){
 }
 function generateCalendar(month) {
     const container = document.getElementById('calendarGrid');
-    container.innerHTML = ""; 
+    container.innerHTML = `
+        <div class="calDay-card"><p>Mon</p></div>
+        <div class="calDay-card"><p>Tue</p></div>
+        <div class="calDay-card"><p>Wed</p></div>
+        <div class="calDay-card"><p>Thu</p></div>
+        <div class="calDay-card"><p>Fri</p></div>
+        <div class="calDay-card"><p>Sat</p></div>
+        <div class="calDay-card"><p>Sun</p></div>    
+    `; 
     document.getElementById('calTitle').innerHTML=`${month}`
+    const monthNumber = monthMap[month];
+    const firstDay = new Date(2026, monthNumber-1, 0).getDay();
+    for (let i = 0; i < firstDay; i++) {
+        const card = document.createElement('div');
+        card.className = 'calDay-card';
+        container.appendChild(card);
+    }
     for (let i = 1; i <= getDaysForSelectedMonths(month); i++) {
         const card = document.createElement('div');
         card.className = 'calDay-card';
+        card.id=`${i}.${monthMap[month]}`
         card.innerHTML = `
-            <button class="calDateBtn">${i}</button>
+            <button id='${card.id}' class="calDateBtn" onclick='calToggle(this)'>${i}</button>
         `;
+        if(userdata.chDates.includes(card.id)){
+            card.classList.add('dateRange')
+        }
         container.appendChild(card);
     }
+}
+function calToggle(element){
+    const currentSelect = document.getElementsByClassName('calDateBtn selected')
+    if(currentSelect.length===0){
+        toggleSelected(element);
+    }else {
+        toggleSelected(currentSelect[0]);
+        toggleSelected(element)
+    }
+    userdata.selectCalD=element.id
 }
 function getDaysForSelectedMonths(month) {
     let results = {};
