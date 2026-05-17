@@ -166,13 +166,6 @@
                                    </button>
                               </div>
                               <div id="calendarGrid" class="calendarContain">
-                                   <div class="calDay-card"><p>Mon</p></div>
-                                   <div class="calDay-card"><p>Tue</p></div>
-                                   <div class="calDay-card"><p>Wed</p></div>
-                                   <div class="calDay-card"><p>Thu</p></div>
-                                   <div class="calDay-card"><p>Fri</p></div>
-                                   <div class="calDay-card"><p>Sat</p></div>
-                                   <div class="calDay-card"><p>Sun</p></div>
                                    
                               </div>
                          </article>
@@ -183,19 +176,19 @@
                     <div class="rightAlign">
                          <article id="dayPlanContain">
                               <h2>Dayplanner</h2>
-                              <div class="dayPlanner">
+                              <div class="dayPlanner customList">
                                    <div id="planListTopContain">
                                         <ul class="dayPlanList" id="planLiContain"> 
                                         </ul>
                                    </div>
-                                   <form onsubmit="addPlans(); return false;" id="planForm">
+                                   <form onsubmit="addUl('plan'); return false;" id="planForm">
                                         <div>
                                              <textarea name="dayPlan" id="dayPlanText" rows="2"></textarea>
                                         </div>
                                         <button type="submit">
                                              +
                                         </button>
-                                        <button type="button" onclick="deletePl()" id="deleteBtnPl" class="hidden">
+                                        <button type="button" onclick="deleteUl(this)" id="deleteBtnPl" class="hidden">
                                              -
                                         </button>
                                    </form>
@@ -203,8 +196,24 @@
                          </article>
                          
                          <article class="packingListContain">
-                              <ul class="packingList">
-                              </ul>
+                              <h2>Packing List</h2>
+                              <div class="packList customList">
+                                   <div id="planListTopContain">
+                                        <ul class="packingListli" id="packListList">
+                                        </ul>
+                                   </div>
+                                   <form onsubmit="addUl('pack'); return false;" id="packForm">
+                                        <div>
+                                             <textarea name="packList" id="packText" rows="2"></textarea>
+                                        </div>
+                                        <button type="submit">
+                                             +
+                                        </button>
+                                        <button type="button" onclick="deleteUl(this)" id="deleteBtnPack" class="hidden">
+                                             -
+                                        </button>
+                                   </form>
+                              </div>
                          </article>
                     </div>
                </section>

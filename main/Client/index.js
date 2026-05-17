@@ -95,13 +95,13 @@ function toggleView(currentPage){
 function generateCalendar(month) {
     const container = document.getElementById('calendarGrid');
     container.innerHTML = `
-        <div class="calDay-card"><p>Mon</p></div>
-        <div class="calDay-card"><p>Tue</p></div>
-        <div class="calDay-card"><p>Wed</p></div>
-        <div class="calDay-card"><p>Thu</p></div>
-        <div class="calDay-card"><p>Fri</p></div>
-        <div class="calDay-card"><p>Sat</p></div>
-        <div class="calDay-card"><p>Sun</p></div>    
+        <div class="calDay-card-Title"><p>Mon</p></div>
+        <div class="calDay-card-Title"><p>Tue</p></div>
+        <div class="calDay-card-Title"><p>Wed</p></div>
+        <div class="calDay-card-Title"><p>Thu</p></div>
+        <div class="calDay-card-Title"><p>Fri</p></div>
+        <div class="calDay-card-Title"><p>Sat</p></div>
+        <div class="calDay-card-Title"><p>Sun</p></div>    
     `; 
     document.getElementById('calTitle').innerHTML=`${month}`
     const monthNumber = monthMap[month];
@@ -160,35 +160,75 @@ function changeMonth(switchDir){
     startMonth=reverseMonthMap[currentMonthNumb];
     generateCalendar(startMonth)
 }
-function addPlans(){
-    let inputText = document.getElementById('dayPlanText')
-    createLi(inputText.value)
+function addUl(choice){
+     let inputText=0;
+    switch(choice){
+        case 'plan':{
+            inputText = document.getElementById('dayPlanText');
+            break;
+        }
+        case 'pack':{
+            inputText = document.getElementById('packText');
+            break;
+        }
+    }
+    createLi(choice,inputText.value)
     inputText.value="";
 }
-function deletePl(){
+function deleteUl(element){
     const allSelected = document.getElementsByClassName('selectedPl');
     for(const e of allSelected){
         e.remove();
     }
-    checkSelectPl()
+    checkSelectUl(element)
 }
-function checkSelectPl(){
-    const anySelected = document.querySelectorAll('.selectedPl').length > 0;
-    if (anySelected) {
-        document.getElementById('deleteBtnPl').classList.remove('hidden');
+function checkSelectUl(element){
+    let anySelected = 0;
+    switch(element.id){
+        case 'deleteBtnPl':{
+            anySelected = document.querySelectorAll('.dayPl.selectedPl');
+            break;
+        }
+        case 'deleteBtnPack':{
+            anySelected = document.querySelectorAll('.packLi.selectedPl');
+            break;
+        }
+    }
+    if (anySelected.length > 0) {
+        element.classList.remove('hidden');
     }else {
-        document.getElementById('deleteBtnPl').classList.add('hidden');
+        element.classList.add('hidden');
     }
 }
-function createLi(text){
-    const listContain = document.getElementById('planLiContain')
-    const newLi= document.createElement("li");
-    newLi.textContent = text
-    newLi.onclick=function(){
-     this.classList.toggle('selectedPl');
-     checkSelectPl()
+function createLi(choice, text){
+    let listContain=0;
+    switch(choice){
+        case 'plan':{
+            listContain = document.getElementById('planLiContain');
+            const newLi= document.createElement("li");
+            newLi.textContent = text
+            newLi.className='dayPl'
+            newLi.onclick=function(){
+                this.classList.toggle('selectedPl');
+                checkSelectUl(document.getElementById('deleteBtnPl'))
+            }
+            listContain.appendChild(newLi);
+            break;
+        }
+        case 'pack':{
+            listContain = document.getElementById('packListList');
+            const newLi= document.createElement("li");
+            newLi.textContent = text
+            newLi.className='packLi'
+            newLi.onclick=function(){
+                this.classList.toggle('selectedPl');
+                checkSelectUl(document.getElementById('deleteBtnPack'))
+            }
+            listContain.appendChild(newLi);
+            break;
+        }
     }
-    listContain.appendChild(newLi);
+    
 }
 function toggleLogDialog(){
     const login=document.getElementById('loginDialog')
