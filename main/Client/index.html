@@ -12,8 +12,9 @@
         <div class="nav-left">
         </div>
         <div class="nav-right">
-             <button class="login" onclick="toggleLogDialog()">Sign up / Log in</button>
-
+             <button class="login" id="loginBtn" onclick="toggleLoginDialog()">Sign up / Log in</button>
+             <button class="login hidden" id="logoutBtn" onclick="logoutUsr()">Logout</button>
+             <button class="login hidden" id="accountBtn" onclick="toggleRecommsLi()">My Account</button>
         </div>
     </nav>
     <main id="main">
@@ -147,9 +148,9 @@
                     <button class="navButton" onclick="toggleView('recomms')">
                          Next
                     </button>
-                    
                </div>
                <section id="contentContain3" class="content">
+                    <ul id="  recommendsList"></ul>
                </section>
           </section>
           <section id="finPage" class="viewF hidden">
@@ -227,27 +228,42 @@
     <footer>
          <p>Created by students of <a href="https://www.hcw.ac.at/">HCW</a></p>
     </footer>
-    <dialog id="loginDialog">
-      <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
-        <button type="button" id="cancelLogin" onclick="closeDialog()">Cancel</button>
-        <p>If you are new here, sign up<a onclick="toggleLogDialog()">here</a></p>
+    <dialog id="loginDialog" class="dialog">
+      <form id="loginForm" class="logForm">
+          <div>
+               <label for="username">Username:</label>
+               <input type="text" id="logUsername" name="username" required>
+          </div>
+          <div>
+               <label for="password">Password:</label>
+               <input type="password" id="logPassword" name="password" required>
+          </div>
+          <div>
+               <button type="submit">Login</button>
+               <button type="button" id="cancelLogin" onclick="closeDialog()">Cancel</button>
+          </div>
+          <p>If you are new here, sign up <a onclick="toggleLoginDialog()">here</a></p>
       </form>
     </dialog>
-    <dialog id="signupDialog">
-      <form id="signupForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Login</button>
-        <button type="button" id="cancelLogin" onclick="closeDialog()">Cancel</button>
-        <p>If you already have an account, login <a onclick="toggleLogDialog()">here</a></p>
+    <dialog id="signupDialog" class="dialog">
+      <form id="signupForm" class="logForm">
+          <div>
+               <label for="username">Username:</label>
+               <input type="text" id="signUsername" name="username" required>
+          </div>
+          <div>
+               <label for="password">Password:</label>
+               <input type="password" id="signPassword" name="password" required>
+          </div>
+          <div>
+               <button type="submit">Sign up</button>
+               <button type="button" id="cancelSign" onclick="closeDialog()">Cancel</button>
+          </div>
+          <p>If you already have an account, login <a onclick="toggleLoginDialog()">here</a></p>
       </form>
+    </dialog>
+    <dialog id="accountSavedRecoms" class="dialog">
+      <ul id="recommsList"></ul>
     </dialog>
 </body>
 </html>

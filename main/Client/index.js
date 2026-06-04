@@ -2,11 +2,31 @@ let userdata = {
     days: 0,
     timeframe:[],
     category:[],
-    chDates:['1.4', '2.4', '3.4'],
-    selectCalD:0
+    chDates:[],
+    selectCalD:0,
+    recommendation: [],
+    session: 'true',
+    recommId:[],
 }
-let userSelection = {
-    recommendation: []
+let savedData;
+let startMonth;
+window.addEventListener('load', () => {
+    savedData = localStorage.getItem('when2go_data');
+    if (savedData) {
+        userdata = JSON.parse(savedData);
+    }
+    checkState();
+});
+function checkState(){
+    if (userdata.session === 'true') {
+    document.getElementById('loginBtn').classList.add('hidden');
+    document.getElementById('accountBtn').classList.remove('hidden');
+    document.getElementById('logoutBtn').classList.remove('hidden');
+    }else{
+    document.getElementById('loginBtn').classList.remove('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('accountBtn').classList.add('hidden');
+    }
 }
 const monthMap = {
     "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
@@ -15,7 +35,13 @@ const monthMap = {
 const reverseMonthMap = Object.fromEntries(
     Object.entries(monthMap).map(([name, num]) => [num, name])
 );
-window.onload = function () {
+function saveUserData(){
+    localStorage.setItem('when2go_data', JSON.stringify(userdata));
+}
+function logoutUsr(){
+    userdata.session='false';
+    checkState();
+    saveUserData();
 }
 function monthChoice(month, element){
     if(!userdata.timeframe.includes(month)){
@@ -25,7 +51,6 @@ function monthChoice(month, element){
         userdata.timeframe = userdata.timeframe.filter(m => m !== month)
         element.classList.remove('selected');
     }
-    
 }
 function catchoice(category, element){
     if(!userdata.category.includes(category)){
@@ -43,7 +68,6 @@ function toggleSelected(element){
         element.classList.remove('selected')
     }
 }
-let startMonth 
 function toggleView(currentPage){
     console.log(userdata.days);
     console.log(userdata.timeframe.length)
@@ -73,6 +97,8 @@ function toggleView(currentPage){
             document.getElementById('finPage').classList.remove('hidden');
             startMonth = userdata.timeframe[0];
             generateCalendar(userdata.timeframe[0]);
+            fillSavedLi();
+            findCheckedRecomms();
             break;
         case 'timeframeBack':
             document.getElementById('chPage1').classList.add('hidden');
@@ -230,7 +256,7 @@ function createLi(choice, text){
     }
     
 }
-function toggleLogDialog(){
+function toggleLoginDialog(){
     const login=document.getElementById('loginDialog')
     const signup=document.getElementById('signupDialog')
     if(!login.open && !signup.open){
@@ -250,4 +276,66 @@ function closeDialog(){
   const signup=document.getElementById('signupDialog')   
     login.close();
     signup.close();
+}
+function toggleRecommsLi(){
+    const accountDial = document.getElementById('accountSavedRecoms')
+    accountDial.showModal()
+    const list = document.getElementById('recommsList')
+    list.innerHTML = "";
+    for(const recomm of userdata.recommendation){
+        const box = document.createElement('li')
+        box.className='savedRecomms'
+        const title = document.createElement('p')
+            title.textContent= `${recomm.City}, ${recomm.Country}`
+        const dates = document.createElement('p')
+            dates.textContent = `${recomm.DateRange}`
+        box.append(title, dates);
+        list.append(box);
+    }
+}
+function getRecomms(){
+    fetch('http://localhost:3000/recommendations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userdata)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const container = document.getElementById('recommendsList');
+        for(const recomm of data){
+            const li = createElement('li')
+            li.className = "recomm-item";
+            li.id=recomm.ID;
+            li.innerHTML = `
+                <img src="${recomm.Pic}" alt="${recomm.City}" class="recomm-img">
+                <div class="recomm-info">
+                    <strong>${recomm.City}, ${recomm.Country}</strong><br>
+                    <small>${recomm.DateRange}</small>
+                </div>
+                <div>
+                    <input type="checkbox" class='recommCheck' id="${recomm.ID}">
+                </div>
+                `;
+            container.append(li)}
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+function findCheckedRecomms(){
+    const items = document.querySelectorAll('.recommCheck')
+    userdata.recommId = [];
+    items.forEach(item => {
+        if(item.checked && !userdata.recommId.includes(item.id)){
+            userdata.recommId.push(item.id);
+        }
+    })
+    saveUserData();
 }
