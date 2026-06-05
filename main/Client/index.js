@@ -16,6 +16,10 @@ window.addEventListener('load', () => {
         userdata = JSON.parse(savedData);
     }
     checkState();
+    userdata.days=0;
+    userdata.timeframe=[];
+    userdata.category=[];
+    userdata.chDates=[];
 });
 function checkState(){
     if (userdata.session === 'true') {
@@ -35,13 +39,13 @@ const monthMap = {
 const reverseMonthMap = Object.fromEntries(
     Object.entries(monthMap).map(([name, num]) => [num, name])
 );
-function saveUserData(){
+function saveUsrData(){
     localStorage.setItem('when2go_data', JSON.stringify(userdata));
 }
 function logoutUsr(){
     userdata.session='false';
     checkState();
-    saveUserData();
+    saveUsrData();
 }
 function monthChoice(month, element){
     if(!userdata.timeframe.includes(month)){
@@ -52,7 +56,7 @@ function monthChoice(month, element){
         element.classList.remove('selected');
     }
 }
-function catchoice(category, element){
+function catChoice(category, element){
     if(!userdata.category.includes(category)){
         userdata.category.push(category)
         toggleSelected(element)
@@ -95,9 +99,7 @@ function toggleView(currentPage){
         case 'recomms':
             document.getElementById('chPage3').classList.add('hidden');
             document.getElementById('finPage').classList.remove('hidden');
-            startMonth = userdata.timeframe[0];
-            generateCalendar(userdata.timeframe[0]);
-            fillSavedLi();
+            generateCalendar();
             findCheckedRecomms();
             break;
         case 'timeframeBack':
@@ -118,7 +120,10 @@ function toggleView(currentPage){
     }
 
 }
-function generateCalendar(month) {
+function generateCalendar() {
+    const month = userdata.timeframe.sort((a, b) => {
+        return monthMap[a] - monthMap[b]; 
+    })[0]
     const container = document.getElementById('calendarGrid');
     container.innerHTML = `
         <div class="calDay-card-Title"><p>Mon</p></div>
@@ -142,7 +147,7 @@ function generateCalendar(month) {
         card.className = 'calDay-card';
         card.id=`${i}.${monthMap[month]}`
         card.innerHTML = `
-            <button id='${card.id}' class="calDateBtn" onclick='calToggle(this)'>${i}</button>
+            <button id='${card.id}' class="calDateBtn" onclick='calBtnToggle(this)'>${i}</button>
         `;
         if(userdata.chDates.includes(card.id)){
             card.classList.add('dateRange')
@@ -150,7 +155,7 @@ function generateCalendar(month) {
         container.appendChild(card);
     }
 }
-function calToggle(element){
+function calBtnToggle(element){
     const currentSelect = document.getElementsByClassName('calDateBtn selected')
     if(currentSelect.length===0){
         toggleSelected(element);
@@ -166,7 +171,7 @@ function getDaysForSelectedMonths(month) {
         const daysCount = new Date(2026, monthNumber, 0).getDate();
     return daysCount;
 }
-function changeMonth(switchDir){
+function calChangeMonth(switchDir){
     let currentMonthNumb = monthMap[startMonth];
     switch(switchDir){
         case '+':
@@ -186,7 +191,7 @@ function changeMonth(switchDir){
     startMonth=reverseMonthMap[currentMonthNumb];
     generateCalendar(startMonth)
 }
-function addUl(choice){
+function addLi(choice){
      let inputText=0;
     switch(choice){
         case 'plan':{
@@ -201,14 +206,14 @@ function addUl(choice){
     createLi(choice,inputText.value)
     inputText.value="";
 }
-function deleteUl(element){
+function delLi(element){
     const allSelected = document.getElementsByClassName('selectedPl');
     for(const e of allSelected){
         e.remove();
     }
-    checkSelectUl(element)
+    checkSelectLi(element)
 }
-function checkSelectUl(element){
+function checkSelectLi(element){
     let anySelected = 0;
     switch(element.id){
         case 'deleteBtnPl':{
@@ -236,7 +241,7 @@ function createLi(choice, text){
             newLi.className='dayPl'
             newLi.onclick=function(){
                 this.classList.toggle('selectedPl');
-                checkSelectUl(document.getElementById('deleteBtnPl'))
+                checkSelectLi(document.getElementById('deleteBtnPl'))
             }
             listContain.appendChild(newLi);
             break;
@@ -248,7 +253,7 @@ function createLi(choice, text){
             newLi.className='packLi'
             newLi.onclick=function(){
                 this.classList.toggle('selectedPl');
-                checkSelectUl(document.getElementById('deleteBtnPack'))
+                checkSelectLi(document.getElementById('deleteBtnPack'))
             }
             listContain.appendChild(newLi);
             break;
@@ -277,7 +282,7 @@ function closeDialog(){
     login.close();
     signup.close();
 }
-function toggleRecommsLi(){
+function toggleRecommsUl(){
     const accountDial = document.getElementById('accountSavedRecoms')
     accountDial.showModal()
     const list = document.getElementById('recommsList')
@@ -337,5 +342,5 @@ function findCheckedRecomms(){
             userdata.recommId.push(item.id);
         }
     })
-    saveUserData();
+    saveUsrData();
 }

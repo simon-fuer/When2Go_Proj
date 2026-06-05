@@ -14,7 +14,7 @@
         <div class="nav-right">
              <button class="login" id="loginBtn" onclick="toggleLoginDialog()">Sign up / Log in</button>
              <button class="login hidden" id="logoutBtn" onclick="logoutUsr()">Logout</button>
-             <button class="login hidden" id="accountBtn" onclick="toggleRecommsLi()">My Account</button>
+             <button class="login hidden" id="accountBtn" onclick="toggleRecommsUl()">My Account</button>
         </div>
     </nav>
     <main id="main">
@@ -117,22 +117,22 @@
                     
                </div>
                <section id="contentContain2" class="content">
-                    <section onclick="catchoice('city', this)" id="citSect" class="catSect">
+                    <section onclick="catChoice('city', this)" id="citSect" class="catSect">
                          <h2>
                               City-Trip
                          </h2>
                     </section>
-                    <section onclick="catchoice('beach', this)" id="beachSect" class="catSect">
+                    <section onclick="catChoice('beach', this)" id="beachSect" class="catSect">
                          <h2>
                               Beach
                          </h2>
                     </section>
-                    <section onclick="catchoice('adventure', this)" id="advSect" class="catSect">
+                    <section onclick="catChoice('adventure', this)" id="advSect" class="catSect">
                          <h2>
                               Adventure
                          </h2>
                     </section>
-                    <section onclick="catchoice('wellness', this)" id="wellSect" class="catSect">
+                    <section onclick="catChoice('wellness', this)" id="wellSect" class="catSect">
                          <h2>
                               Wellness
                          </h2>
@@ -158,11 +158,11 @@
                     <div class="leftAlign">
                          <article class="ContainerCal" id="CalenderOutContainer" >
                               <div id="calTitleNav">
-                                   <button class="calNavBtn" onclick="changeMonth('-')">
+                                   <button class="calNavBtn" onclick="calChangeMonth('-')">
                                         last
                                    </button>
                                    <h2 id="calTitle">Title</h2>
-                                   <button class="calNavBtn" onclick="changeMonth('+')">
+                                   <button class="calNavBtn" onclick="calChangeMonth('+')">
                                         next
                                    </button>
                               </div>
@@ -182,14 +182,14 @@
                                         <ul class="dayPlanList" id="planLiContain"> 
                                         </ul>
                                    </div>
-                                   <form onsubmit="addUl('plan'); return false;" id="planForm">
+                                   <form onsubmit="addLi('plan'); return false;" id="planForm">
                                         <div>
                                              <textarea name="dayPlan" id="dayPlanText" rows="2"></textarea>
                                         </div>
                                         <button type="submit">
                                              +
                                         </button>
-                                        <button type="button" onclick="deleteUl(this)" id="deleteBtnPl" class="hidden">
+                                        <button type="button" onclick="delLi(this)" id="deleteBtnPl" class="hidden">
                                              -
                                         </button>
                                    </form>
@@ -203,14 +203,14 @@
                                         <ul class="packingListli" id="packListList">
                                         </ul>
                                    </div>
-                                   <form onsubmit="addUl('pack'); return false;" id="packForm">
+                                   <form onsubmit="addLi('pack'); return false;" id="packForm">
                                         <div>
                                              <textarea name="packList" id="packText" rows="2"></textarea>
                                         </div>
                                         <button type="submit">
                                              +
                                         </button>
-                                        <button type="button" onclick="deleteUl(this)" id="deleteBtnPack" class="hidden">
+                                        <button type="button" onclick="delLi(this)" id="deleteBtnPack" class="hidden">
                                              -
                                         </button>
                                    </form>
@@ -263,6 +263,7 @@
       </form>
     </dialog>
     <dialog id="accountSavedRecoms" class="dialog">
+          <div id="savedRecommsTitle"><p>Your saved trips</p></div>
       <ul id="recommsList"></ul>
     </dialog>
 </body>
