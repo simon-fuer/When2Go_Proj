@@ -50,13 +50,13 @@
                     <div id="springBtns" class="ChContain">
                          <h2>Spring</h2>
                          <div class="ChBtn">
-                              <button type="button" onclick="monthChoice('Mar', this)" id="Mar">
+                              <button type="button" onclick="multiChoice('Mar', this, 'month')" id="Mar">
                                    Mar
                               </button>
-                              <button type="button" onclick="monthChoice('Apr', this)" id="Apr">
+                              <button type="button" onclick="multiChoice('Apr', this, 'month')" id="Apr">
                                    Apr
                               </button>
-                              <button type="button" onclick="monthChoice('May', this)" id="May">
+                              <button type="button" onclick="multiChoice('May', this, 'month')" id="May">
                                    May
                               </button>
                          </div>
@@ -64,13 +64,13 @@
                     <div id="summerBtns" class="ChContain">
                          <h2>Summer</h2>
                          <div class="ChBtn">
-                              <button type="button" onclick="monthChoice('Jun', this)" id="Jun">
+                              <button type="button" onclick="multiChoice('Jun', this, 'month')" id="Jun">
                                    Jun
                               </button>
-                              <button type="button" onclick="monthChoice('Jul', this)" id="Jul">
+                              <button type="button" onclick="multiChoice('Jul', this, 'month')" id="Jul">
                                    Jul
                               </button>
-                              <button type="button" onclick="monthChoice('Aug', this)" id="Aug">
+                              <button type="button" onclick="multiChoice('Aug', this, 'month')" id="Aug">
                                    Aug
                               </button>
                          </div>
@@ -78,13 +78,13 @@
                     <div id="fallBtns" class="ChContain">        
                          <h2>Autumn</h2> 
                          <div class="ChBtn">
-                              <button type="button" onclick="monthChoice('Sep', this)" id="Sep">
+                              <button type="button" onclick="multiChoice('Sep', this, 'month')" id="Sep">
                                    Sep
                               </button>
-                              <button type="button" onclick="monthChoice('Oct', this)" id="Oct">
+                              <button type="button" onclick="multiChoice('Oct', this, 'month')" id="Oct">
                                    Oct
                               </button>
-                              <button type="button" onclick="monthChoice('Nov', this)" id="Nov">
+                              <button type="button" onclick="multiChoice('Nov', this, 'month')" id="Nov">
                                    Nov
                               </button>
                          </div>
@@ -92,13 +92,13 @@
                     <div id="winterBtns" class="ChContain">
                          <h2>Winter</h2>
                          <div class="ChBtn">
-                              <button type="button" onclick="monthChoice('Dec', this)" id="Dec">
+                              <button type="button" onclick="multiChoice('Dec', this, 'month')" id="Dec">
                                    Dec
                               </button>
-                              <button type="button" onclick="monthChoice('Jan', this)" id="Jan">
+                              <button type="button" onclick="multiChoice('Jan', this, 'month')" id="Jan">
                                    Jan
                               </button>
-                              <button type="button" onclick="monthChoice('Feb', this)" id="Feb">
+                              <button type="button" onclick="multiChoice('Feb', this, 'month')" id="Feb">
                                    Feb
                               </button>
                          </div>
@@ -117,22 +117,22 @@
                     
                </div>
                <section id="contentContain2" class="content">
-                    <section onclick="catChoice('city', this)" id="citSect" class="catSect">
+                    <section onclick="multiChoice('city', this, 'cat')" id="city" class="catSect">
                          <h2>
                               City-Trip
                          </h2>
                     </section>
-                    <section onclick="catChoice('beach', this)" id="beachSect" class="catSect">
+                    <section onclick="multiChoice('beach', this, 'cat')" id="beach" class="catSect">
                          <h2>
                               Beach
                          </h2>
                     </section>
-                    <section onclick="catChoice('adventure', this)" id="advSect" class="catSect">
+                    <section onclick="multiChoice('adventure', this, 'cat')" id="adventure" class="catSect">
                          <h2>
                               Adventure
                          </h2>
                     </section>
-                    <section onclick="catChoice('wellness', this)" id="wellSect" class="catSect">
+                    <section onclick="multiChoice('wellness', this, 'cat')" id="wellness" class="catSect">
                          <h2>
                               Wellness
                          </h2>
@@ -150,7 +150,7 @@
                     </button>
                </div>
                <section id="contentContain3" class="content">
-                    <ul id="  recommendsList"></ul>
+                    <ul id="recommendsList"></ul>
                </section>
           </section>
           <section id="finPage" class="viewF hidden">
@@ -182,7 +182,7 @@
                                         <ul class="dayPlanList" id="planLiContain"> 
                                         </ul>
                                    </div>
-                                   <form onsubmit="addLi('plan'); return false;" id="planForm">
+                                   <form onsubmit="createLi('plan'); return false;" id="planForm">
                                         <div>
                                              <textarea name="dayPlan" id="dayPlanText" rows="2"></textarea>
                                         </div>
@@ -203,7 +203,7 @@
                                         <ul class="packingListli" id="packListList">
                                         </ul>
                                    </div>
-                                   <form onsubmit="addLi('pack'); return false;" id="packForm">
+                                   <form onsubmit="createLi('pack'); return false;" id="packForm">
                                         <div>
                                              <textarea name="packList" id="packText" rows="2"></textarea>
                                         </div>
